@@ -29,6 +29,7 @@ export const Users: CollectionConfig = {
     defaultColumns: ['id'],
   },
   fields: [
+    { name: 'name', type: 'text' },
     {
       name: 'role',
       defaultValue: 'user',
@@ -42,6 +43,20 @@ export const Users: CollectionConfig = {
         { label: 'User', value: 'user' },
         { label: 'Seller', value: 'seller' },
       ],
+      access: {
+        read: admins,
+        create: admins,
+        update: admins,
+      },
+    },
+    {
+      name: 'mobile',
+      type: 'number',
+    },
+    {
+      name: 'address',
+      type: 'text',
     },
   ],
+  timestamps: true,
 };
