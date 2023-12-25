@@ -246,3 +246,4 @@ dist
 # typescript
 next-env.d.ts
 
+/src/types/*.ts
