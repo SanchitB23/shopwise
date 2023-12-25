@@ -4,8 +4,9 @@
 import Link from 'next/link';
 import MobileMenu from './mobile-menu';
 import Search from './search';
+import { SITE_NAME } from '@/constants/global';
+import Cart from '@/components/layout/nav/cart';
 
-const SITE_NAME = 'Test';
 export default async function Navbar() {
   const menu: any[] = [];
 
@@ -40,9 +41,7 @@ export default async function Navbar() {
           <Search />
         </div>
         <div className="flex justify-end md:w-1/3">
-          {/*<Suspense fallback={<OpenCart />}>*/}
-          {/*  <Cart />*/}
-          {/*</Suspense>*/}
+          <Cart />
         </div>
       </div>
     </nav>

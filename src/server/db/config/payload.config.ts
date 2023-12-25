@@ -25,7 +25,7 @@ export default buildConfig({
     bundler: webpackBundler(),
     meta: {
       titleSuffix: `- `,
-      favicon: '/favicon.ico',
+      favicon: '/favicon.png',
       ogImage: '/thumbnail.jpg',
     },
   },
