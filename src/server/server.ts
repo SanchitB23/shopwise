@@ -6,7 +6,7 @@ import { getPayloadClient } from './db/config/get-payloadcms';
 import { nextApp, nextHandler } from './utils/next-utils';
 
 dotenv.config({
-  path: path.resolve(__dirname, '../.env'),
+  path: path.resolve(__dirname, '../../.env'),
 });
 
 const app = express();
@@ -33,7 +33,6 @@ const start = async (): Promise<void> => {
   }
 
   app.use((req, res) => nextHandler(req, res));
-
   nextApp.prepare().then(() => {
     payload.logger.info('Next.js started');
 
@@ -43,4 +42,4 @@ const start = async (): Promise<void> => {
   });
 };
 
-start().then(() => {});
+start();
