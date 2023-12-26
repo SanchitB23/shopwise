@@ -12,10 +12,12 @@ const Cart = () => {
         <Button
           variant={'outline'}
           size={'icon'}
-          className={'transition-all delay-100 rounded-xl relative'}>
-          <ShoppingCart className={'h-4 w-4 hover:h-5 hover:w-5'} />
+          className={
+            'rounded-xl relative shadow-lg transition-transform transform group hover:bg-transparent'
+          }>
+          <ShoppingCart className={'h-4 w-4 group-hover:scale-105 transition-transform'} />
           {count ? (
-            <Badge className={'bottom-6 left-6 absolute'} variant={'secondary'}>
+            <Badge className={'bottom-6 left-6 absolute rounded-xl'} variant={'secondary'}>
               {count}
             </Badge>
           ) : null}
