@@ -4,7 +4,8 @@ import { buildConfig } from 'payload/config';
 import { slateEditor } from '@payloadcms/richtext-slate';
 import { postgresAdapter } from '@payloadcms/db-postgres';
 import { webpackBundler } from '@payloadcms/bundler-webpack';
-import { Users } from '../models';
+import { Users } from './server/db/models';
+import { SITE_NAME } from './constants/global';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../../../.env'),
@@ -18,13 +19,13 @@ export default buildConfig({
     },
   }),
   routes: {
-    admin: '/sell',
+    admin: '/root/admin',
   },
   admin: {
     user: Users.slug,
     bundler: webpackBundler(),
     meta: {
-      titleSuffix: `- `,
+      titleSuffix: `- ${SITE_NAME}`,
       favicon: '/favicon.png',
       ogImage: '/thumbnail.jpg',
     },

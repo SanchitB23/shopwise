@@ -2,8 +2,8 @@ import path from 'node:path';
 import dotenv from 'dotenv';
 import express from 'express';
 import nextBuild from 'next/dist/build';
-import { getPayloadClient } from './db/config/get-payloadcms';
-import { nextApp, nextHandler } from './utils/next-utils';
+import { getPayloadClient } from './server/db/config/get-payloadcms';
+import { nextApp, nextHandler } from './server/utils/next-utils';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../.env'),

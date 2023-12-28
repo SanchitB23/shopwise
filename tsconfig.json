@@ -17,17 +17,20 @@
       "@/components/*": [
         "./src/client/components/*"
       ],
+      "@/constants/*": [
+        "./src/constants/*"
+      ],
       "@/lib/*": [
         "./src/client/lib/*"
       ],
-      "@/utils/*": [
-        "./src/client/utils/*"
+      "@/resources/*": [
+        "./src/client/resources/*"
       ],
       "@/types/*": [
         "./src/types/*"
       ],
-      "@/constants/*": [
-        "./src/constants/*"
+      "@/utils/*": [
+        "./src/client/utils/*"
       ]
     },
     "plugins": [
@@ -40,13 +43,13 @@
     "strict": true,
     "target": "es5"
   },
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }
