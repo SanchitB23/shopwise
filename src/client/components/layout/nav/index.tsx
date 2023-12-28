@@ -6,6 +6,8 @@ import MobileMenu from './mobile-menu';
 import Search from './search';
 import { SITE_NAME } from '@/constants/global';
 import Cart from '@/components/layout/nav/cart';
+import Image from 'next/image';
+import Logo from '../../../resources/logo/logo_transparent.png';
 
 export default async function Navbar() {
   const menu: any[] = [];
@@ -18,7 +20,7 @@ export default async function Navbar() {
       <div className="flex w-full items-center">
         <div className="flex w-full md:w-1/3">
           <Link href="/" className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6">
-            {/*<LogoSquare />*/}
+            <Image src={Logo} alt={'Logo'} className={'h-16 w-16'} />
             <div className="ml-2 flex-none text-sm font-medium uppercase md:hidden lg:block">
               {SITE_NAME}
             </div>
@@ -41,6 +43,7 @@ export default async function Navbar() {
           <Search />
         </div>
         <div className="flex justify-end md:w-1/3">
+          <Link href={'/sign-in'}>Sign In</Link>
           <Cart />
         </div>
       </div>

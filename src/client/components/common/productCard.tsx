@@ -8,7 +8,7 @@ const ProductCard = ({ product, className }: { product: IProduct; className?: st
   return (
     <Card
       className={cn(
-        'hover:border hover:border-blue-500 transition duration-300 group hover:cursor-pointer h-full transform',
+        'hover:border hover:border-blue-500 transition duration-300 group hover:cursor-pointer h-full transform bg-gray-900 rounded-xl',
         className,
       )}>
       <CardContent className={'flex h-full w-full relative'}>
