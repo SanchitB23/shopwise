@@ -18,7 +18,6 @@ const start = async (): Promise<void> => {
       express: app,
     },
   });
-
   if (process.env.NEXT_BUILD) {
     app.listen(PORT, async () => {
       payload.logger.info('Next.js is building for production');
@@ -31,6 +30,8 @@ const start = async (): Promise<void> => {
 
     return;
   }
+
+  app.use(payload.authenticate);
 
   app.use((req, res) => nextHandler(req, res));
   nextApp.prepare().then(() => {

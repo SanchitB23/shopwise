@@ -2,21 +2,19 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { buildConfig } from 'payload/config';
 import { slateEditor } from '@payloadcms/richtext-slate';
-import { postgresAdapter } from '@payloadcms/db-postgres';
 import { webpackBundler } from '@payloadcms/bundler-webpack';
-import { Users } from './server/db/models';
+import { Products, Users } from './server/db/models';
 import { SITE_NAME } from './constants/global';
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../../../.env'),
 });
 
 export default buildConfig({
-  collections: [Users],
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URI,
-    },
+  collections: [Users, Products],
+  db: mongooseAdapter({
+    url: process.env.DATABASE_URI!,
   }),
   routes: {
     admin: '/root/admin',
@@ -33,6 +31,6 @@ export default buildConfig({
   editor: slateEditor({}), // editor-config
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   typescript: {
-    outputFile: path.resolve(__dirname, '../../../types/payload-types.ts'),
+    outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
 });
