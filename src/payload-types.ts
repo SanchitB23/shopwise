@@ -6,17 +6,49 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+export type CartItems =
+  | {
+      product?: (string | null) | Product;
+      quantity?: number | null;
+      id?: string | null;
+    }[]
+  | null;
+
 export interface Config {
   collections: {
     users: User;
+    products: Product;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   globals: {};
 }
 export interface User {
-  id: number;
-  role?: ('admin' | 'user' | 'seller') | null;
+  id: string;
+  name?: string | null;
+  role?: ('admin' | 'customer' | 'seller') | null;
+  mobile?: number | null;
+  address?:
+    | {
+        full_name: string;
+        mobile: number;
+        pincode: number;
+        address_1: string;
+        address_2?: string | null;
+        landmark?: string | null;
+        city?: string | null;
+        state: string;
+        isDefault?: boolean | null;
+        type?: ('home' | 'office') | null;
+        id?: string | null;
+      }[]
+    | null;
+  products?: (string | Product)[] | null;
+  cart?: {
+    items?: CartItems;
+    createdOn?: string | null;
+    lastModified?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -28,11 +60,28 @@ export interface User {
   lockUntil?: string | null;
   password: string | null;
 }
+export interface Product {
+  id: string;
+  user?: (string | null) | User;
+  title: string;
+  description?: string | null;
+  publishedOn?: string | null;
+  stripeProductID?: string | null;
+  price: number;
+  quantity: number;
+  priceId?: string | null;
+  relatedProducts?: (string | Product)[] | null;
+  skipSync?: boolean | null;
+  slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -48,7 +97,7 @@ export interface PayloadPreference {
   createdAt: string;
 }
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
