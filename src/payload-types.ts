@@ -20,6 +20,7 @@ export interface Config {
     products: Product;
     categories: Category;
     media: Media;
+    orders: Order;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -48,9 +49,9 @@ export interface User {
   products?: (string | Product)[] | null;
   cart?: {
     items?: CartItems;
-    createdOn?: string | null;
-    lastModified?: string | null;
   };
+  stripeCustomerID?: string | null;
+  orders?: (string | Product)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -74,11 +75,13 @@ export interface Product {
   priceId?: string | null;
   categories?: (string | Category)[] | null;
   skipSync?: boolean | null;
+  featured?: boolean | null;
   slug?: string | null;
   productImages: {
     image: string | Media;
     id?: string | null;
   }[];
+  isDeleted?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -93,13 +96,6 @@ export interface Media {
   id: string;
   alt: string;
   user?: (string | null) | User;
-  cloudinary?: {
-    public_id?: string | null;
-    original_filename?: string | null;
-    format?: string | null;
-    secure_url?: string | null;
-    resource_type?: string | null;
-  };
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -134,6 +130,23 @@ export interface Media {
       filename?: string | null;
     };
   };
+}
+export interface Order {
+  id: string;
+  _isPaid?: boolean | null;
+  orderedBy?: (string | null) | User;
+  stripePaymentIntentID?: string | null;
+  total: number;
+  items?:
+    | {
+        product: string | Product;
+        price?: number | null;
+        quantity?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 export interface PayloadPreference {
   id: string;

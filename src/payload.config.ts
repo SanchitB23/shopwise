@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { buildConfig } from 'payload/config';
 import { slateEditor } from '@payloadcms/richtext-slate';
 import { webpackBundler } from '@payloadcms/bundler-webpack';
-import { Categories, Media, Products, Users } from './server/db/models';
+import { Categories, Media, Orders, Products, Users } from './server/db/models';
 import { SITE_NAME } from './constants/global';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 
@@ -12,7 +12,7 @@ dotenv.config({
 });
 
 export default buildConfig({
-  collections: [Users, Products, Categories, Media],
+  collections: [Users, Products, Categories, Media, Orders],
   db: mongooseAdapter({
     url: process.env.DATABASE_URI!,
   }),

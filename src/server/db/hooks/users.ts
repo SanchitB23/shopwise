@@ -88,3 +88,13 @@ export const createStripeCustomer: BeforeChangeHook = async ({ req, data, operat
 
   return data;
 };
+
+export const resolveDuplicatePurchases: FieldHook<User> = async ({ value, operation }) => {
+  if ((operation === 'create' || operation === 'update') && value) {
+    return Array.from(
+      new Set(value?.map((order: any) => (typeof order === 'string' ? order : order.id)) || []),
+    );
+  }
+
+  return;
+};

@@ -1,7 +1,12 @@
 import { CollectionConfig } from 'payload/types';
 import { checkRole } from '../utils/checkRole';
 import { admins } from '../access/admins';
-import { createStripeCustomer, ensureFirstUserIsAdmin, loginAfterCreate } from '../hooks/users';
+import {
+  createStripeCustomer,
+  ensureFirstUserIsAdmin,
+  loginAfterCreate,
+  resolveDuplicatePurchases,
+} from '../hooks/users';
 import { adminsOrSellers } from '../access/adminsOrSellers';
 // import { PrimaryActionEmailHtml } from "../../components/PrimaryActionEmail";
 
@@ -175,6 +180,28 @@ export const Users: CollectionConfig = {
           ],
         },
       ],
+    },
+    {
+      name: 'stripeCustomerID',
+      label: 'Stripe Customer',
+      type: 'text',
+      access: {
+        read: ({ req: { user } }) => checkRole('admin', user),
+      },
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+    },
+    {
+      name: 'orders',
+      label: 'Orders',
+      type: 'relationship',
+      relationTo: 'products',
+      hasMany: true,
+      hooks: {
+        beforeChange: [resolveDuplicatePurchases],
+      },
     },
   ],
   timestamps: true,
