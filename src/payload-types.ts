@@ -67,7 +67,11 @@ export interface Product {
   id: string;
   user?: (string | null) | User;
   title: string;
-  description?: string | null;
+  description?:
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
   publishedOn?: string | null;
   stripeProductID?: string | null;
   price: number;

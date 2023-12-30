@@ -4,7 +4,6 @@ import { adminsOrSellers } from '../access/adminsOrSellers';
 import {
   addStripeIdToProduct,
   addUploaderDataInProduct,
-  deleteProductFromCarts,
   publishedOnHook,
   syncUserWithAddedProducts,
 } from '../hooks/products';
@@ -25,7 +24,7 @@ const Products: CollectionConfig = {
   hooks: {
     afterChange: [syncUserWithAddedProducts],
     beforeChange: [addUploaderDataInProduct, addStripeIdToProduct],
-    afterDelete: [deleteProductFromCarts],
+    // afterDelete: [deleteProductFromCarts],
   },
   access: {
     read: isAdminOrHasAccess(),
