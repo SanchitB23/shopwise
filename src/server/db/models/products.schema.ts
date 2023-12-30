@@ -1,20 +1,31 @@
 import { CollectionConfig } from 'payload/types';
-import { admins } from '../Users/access/admins';
-import { adminsOrSellers } from '../Users/access/adminsOrSellers';
-import { publishedOnHook } from '../../hooks/products';
-import { anyone } from '../Users/access/anyone';
-import { nobody } from '../Users/access/nobody';
-import { slugField } from '../../utils/addSlugField';
-import { isAdminOrHasAccess } from '../Users/access/isAdminOrHasAccess';
+import { admins } from '../access/admins';
+import { adminsOrSellers } from '../access/adminsOrSellers';
+import {
+  addStripeIdToProduct,
+  addUploaderDataInProduct,
+  deleteProductFromCarts,
+  publishedOnHook,
+  syncUserWithAddedProducts,
+} from '../hooks/products';
+import { anyone } from '../access/anyone';
+import { nobody } from '../access/nobody';
+import { slugField } from '../utils/addSlugField';
+import { isAdminOrHasAccess } from '../access/isAdminOrHasAccess';
 
 const Products: CollectionConfig = {
   slug: 'products',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'stripeProductID', '_status'],
+    defaultColumns: ['title', 'updatedAt', 'isDeleted'],
   },
   versions: {
     drafts: true,
+  },
+  hooks: {
+    afterChange: [syncUserWithAddedProducts],
+    beforeChange: [addUploaderDataInProduct, addStripeIdToProduct],
+    afterDelete: [deleteProductFromCarts],
   },
   access: {
     read: isAdminOrHasAccess(),
@@ -48,6 +59,7 @@ const Products: CollectionConfig = {
       type: 'date',
       admin: {
         position: 'sidebar',
+        readOnly: true,
         date: {
           pickerAppearance: 'dayAndTime',
         },
@@ -131,6 +143,14 @@ const Products: CollectionConfig = {
         hidden: true,
       },
     },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
     slugField(),
     {
       name: 'productImages',
@@ -155,7 +175,16 @@ const Products: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'isDeleted',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
   ],
+  timestamps: true,
 };
 
 export default Products;

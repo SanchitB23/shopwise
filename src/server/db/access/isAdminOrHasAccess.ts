@@ -1,6 +1,6 @@
 import { Access } from 'payload/types';
-import { User } from '../../../../../payload-types';
-import { checkRole } from '../../../utils/checkRole';
+import { User } from '../../../payload-types';
+import { checkRole } from '../utils/checkRole';
 
 export const isAdminOrHasAccess =
   (): Access =>

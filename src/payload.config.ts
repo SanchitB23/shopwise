@@ -6,7 +6,6 @@ import { webpackBundler } from '@payloadcms/bundler-webpack';
 import { Categories, Media, Products, Users } from './server/db/models';
 import { SITE_NAME } from './constants/global';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
-import cloudinaryPlugin from 'payload-cloudinary-plugin/dist/plugins/cloudinaryPlugin';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../../../.env'),
@@ -29,7 +28,7 @@ export default buildConfig({
       ogImage: '/thumbnail.jpg',
     },
   },
-  plugins: [cloudinaryPlugin()],
+  // plugins: [cloudinaryPlugin()],
   editor: slateEditor({}), // editor-config
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   typescript: {

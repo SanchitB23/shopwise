@@ -1,19 +1,9 @@
-import { Access, CollectionConfig } from 'payload/types';
-import { checkRole } from '../../utils/checkRole';
-import { admins } from './access/admins';
-import { ensureFirstUserIsAdmin } from '../../hooks/users';
-import { adminsOrSellers } from './access/adminsOrSellers';
+import { CollectionConfig } from 'payload/types';
+import { checkRole } from '../utils/checkRole';
+import { admins } from '../access/admins';
+import { createStripeCustomer, ensureFirstUserIsAdmin, loginAfterCreate } from '../hooks/users';
+import { adminsOrSellers } from '../access/adminsOrSellers';
 // import { PrimaryActionEmailHtml } from "../../components/PrimaryActionEmail";
-
-const adminsAndUser: Access = ({ req: { user } }) => {
-  if (user.role === 'admin') return true;
-
-  return {
-    id: {
-      equals: user.id,
-    },
-  };
-};
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -35,10 +25,14 @@ export const Users: CollectionConfig = {
     delete: admins,
     admin: ({ req: { user } }) => checkRole('admin', user),
   },
+  hooks: {
+    beforeChange: [createStripeCustomer],
+    afterChange: [loginAfterCreate],
+  },
   admin: {
     // @ts-ignore
     hidden: ({ user }) => !checkRole('admin', user),
-    defaultColumns: ['id', 'name', 'email'],
+    defaultColumns: ['name', 'email'],
     listSearchableFields: ['name', 'email'],
   },
   fields: [
@@ -139,7 +133,8 @@ export const Users: CollectionConfig = {
       name: 'products',
       label: 'Products',
       admin: {
-        condition: () => false,
+        condition: () => true,
+        readOnly: true,
       },
       type: 'relationship',
       relationTo: 'products',
@@ -154,6 +149,9 @@ export const Users: CollectionConfig = {
       label: 'Cart',
       name: 'cart',
       type: 'group',
+      admin: {
+        readOnly: true,
+      },
       fields: [
         {
           name: 'items',
@@ -175,22 +173,6 @@ export const Users: CollectionConfig = {
               },
             },
           ],
-        },
-        {
-          name: 'createdOn',
-          label: 'Created On',
-          type: 'date',
-          admin: {
-            readOnly: true,
-          },
-        },
-        {
-          name: 'lastModified',
-          label: 'Last Modified',
-          type: 'date',
-          admin: {
-            readOnly: true,
-          },
         },
       ],
     },

@@ -1,6 +1,6 @@
 import type { AccessArgs } from 'payload/config';
-import { checkRole } from '../../../utils/checkRole';
-import { User } from '../../../../../payload-types';
+import { checkRole } from '../utils/checkRole';
+import { User } from '../../../payload-types';
 
 type isAdminOrSeller = (args: AccessArgs<unknown, User>) => boolean;
 

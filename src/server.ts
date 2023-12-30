@@ -4,8 +4,6 @@ import express from 'express';
 import nextBuild from 'next/dist/build';
 import { getPayloadClient } from './server/db/config/get-payloadcms';
 import { nextApp, nextHandler } from './server/utils/next-utils';
-import { mediaManagement } from 'payload-cloudinary-plugin';
-import cloudinaryConfig from './server/utils/cloudinary-config';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../.env'),
@@ -34,7 +32,7 @@ const start = async (): Promise<void> => {
   }
 
   app.use(payload.authenticate);
-  app.use(mediaManagement(cloudinaryConfig));
+  // app.use(mediaManagement(cloudinaryConfig));
 
   app.use((req, res) => nextHandler(req, res));
   nextApp.prepare().then(() => {
