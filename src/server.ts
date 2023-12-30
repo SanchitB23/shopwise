@@ -4,6 +4,9 @@ import express from 'express';
 import nextBuild from 'next/dist/build';
 import { getPayloadClient } from './server/db/config/get-payloadcms';
 import { nextApp, nextHandler } from './server/utils/next-utils';
+import * as trpcExpress from '@trpc/server/adapters/express';
+import { createContext } from './trpc/config/create-context';
+import { appRouter } from './trpc/routes/route';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../.env'),
@@ -33,7 +36,13 @@ const start = async (): Promise<void> => {
 
   app.use(payload.authenticate);
   // app.use(mediaManagement(cloudinaryConfig));
-
+  app.use(
+    '/api/trpc',
+    trpcExpress.createExpressMiddleware({
+      router: appRouter,
+      createContext,
+    }),
+  );
   app.use((req, res) => nextHandler(req, res));
   nextApp.prepare().then(() => {
     payload.logger.info('Next.js started');

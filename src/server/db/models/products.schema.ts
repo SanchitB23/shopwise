@@ -51,7 +51,7 @@ const Products: CollectionConfig = {
     },
     {
       name: 'description',
-      type: 'textarea',
+      type: 'richText',
       label: 'Product details',
     },
     {
