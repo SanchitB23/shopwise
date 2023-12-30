@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/nav';
+import TrpcProvider from '@/components/Providers/TrpcProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,9 +16,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <TrpcProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </TrpcProvider>
       </body>
     </html>
   );
