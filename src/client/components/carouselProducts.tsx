@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { trpc } from '@/trpc/client';
 import ProductCard from '@/components/common/productCard';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function Carousel({ className }: { className?: string }) {
   const { data, isLoading, isError } = trpc.productsRouter.getFeaturedProducts.useQuery({
@@ -12,9 +13,22 @@ export function Carousel({ className }: { className?: string }) {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={cn('w-full overflow-x-auto pb-6 pt-1', className)}>
+        <ul className="flex gap-4">
+          {Array.from({ length: 3 }, (_, index) => (
+            <Skeleton
+              key={index}
+              className={
+                'relative aspect-square h-[30vh] max-h-[275px] w-2/3 max-w-[475px] flex-none md:w-1/3'
+              }
+            />
+          ))}
+        </ul>
+      </div>
+    );
   }
-  if (isError) return <div>Dikkat hai kuch...</div>;
+  if (isError) return null;
 
   const carouselProducts = [...data.items, ...data.items, ...data.items];
 
