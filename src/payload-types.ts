@@ -18,6 +18,8 @@ export interface Config {
   collections: {
     users: User;
     products: Product;
+    categories: Category;
+    media: Media;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -70,12 +72,68 @@ export interface Product {
   price: number;
   quantity: number;
   priceId?: string | null;
-  relatedProducts?: (string | Product)[] | null;
+  categories?: (string | Category)[] | null;
   skipSync?: boolean | null;
   slug?: string | null;
+  productImages: {
+    image: string | Media;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+export interface Category {
+  id: string;
+  title?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Media {
+  id: string;
+  alt: string;
+  user?: (string | null) | User;
+  cloudinary?: {
+    public_id?: string | null;
+    original_filename?: string | null;
+    format?: string | null;
+    secure_url?: string | null;
+    resource_type?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 export interface PayloadPreference {
   id: string;

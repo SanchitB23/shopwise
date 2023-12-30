@@ -3,16 +3,17 @@ import dotenv from 'dotenv';
 import { buildConfig } from 'payload/config';
 import { slateEditor } from '@payloadcms/richtext-slate';
 import { webpackBundler } from '@payloadcms/bundler-webpack';
-import { Products, Users } from './server/db/models';
+import { Categories, Media, Products, Users } from './server/db/models';
 import { SITE_NAME } from './constants/global';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import cloudinaryPlugin from 'payload-cloudinary-plugin/dist/plugins/cloudinaryPlugin';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../../../.env'),
 });
 
 export default buildConfig({
-  collections: [Users, Products],
+  collections: [Users, Products, Categories, Media],
   db: mongooseAdapter({
     url: process.env.DATABASE_URI!,
   }),
@@ -28,6 +29,7 @@ export default buildConfig({
       ogImage: '/thumbnail.jpg',
     },
   },
+  plugins: [cloudinaryPlugin()],
   editor: slateEditor({}), // editor-config
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   typescript: {

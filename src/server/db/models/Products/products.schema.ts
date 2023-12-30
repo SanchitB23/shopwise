@@ -99,15 +99,15 @@ const Products: CollectionConfig = {
         hidden: true,
       },
     },
-    // {
-    //   name: 'categories',
-    //   type: 'relationship',
-    //   relationTo: 'categories',
-    //   hasMany: true,
-    //   admin: {
-    //     position: 'sidebar',
-    //   },
-    // },
+    {
+      name: 'categories',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
     // {
     //   name: 'relatedProducts',
     //   type: 'relationship',
@@ -132,29 +132,29 @@ const Products: CollectionConfig = {
       },
     },
     slugField(),
-    // {
-    //   name: 'productImages',
-    //   type: 'array',
-    //   label: 'Product images',
-    //   minRows: 1,
-    //   maxRows: 4,
-    //   required: true,
-    //   labels: {
-    //     singular: 'Image',
-    //     plural: 'Images',
-    //   },
-    //   fields: [
-    //     {
-    //       name: 'image',
-    //       type: 'upload',
-    //       relationTo: 'media',
-    //       required: true,
-    //       filterOptions: {
-    //         mimeType: { contains: 'image' },
-    //       },
-    //     },
-    //   ],
-    // },
+    {
+      name: 'productImages',
+      type: 'array',
+      label: 'Product images',
+      minRows: 1,
+      maxRows: 4,
+      required: true,
+      labels: {
+        singular: 'Image',
+        plural: 'Images',
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          filterOptions: {
+            mimeType: { contains: 'image' },
+          },
+        },
+      ],
+    },
   ],
 };
 
