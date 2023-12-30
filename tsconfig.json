@@ -31,7 +31,8 @@
       ],
       "@/utils/*": [
         "./src/client/utils/*"
-      ]
+      ],
+      "@/trpc/client": ["./src/trpc/client.ts"]
     },
     "plugins": [
       {

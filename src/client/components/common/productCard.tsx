@@ -1,10 +1,13 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { Product } from '../../../payload-types';
+import { validUrls } from '@/utils/get-img-urls';
+import Image from 'next/image';
 
-const ProductCard = ({ product, className }: { product: IProduct; className?: string }) => {
+const ProductCard = ({ product, className }: { product: Product; className?: string }) => {
+  const imageUrls = validUrls(product);
   return (
     <Card
       className={cn(
@@ -13,7 +16,7 @@ const ProductCard = ({ product, className }: { product: IProduct; className?: st
       )}>
       <CardContent className={'flex h-full w-full relative'}>
         <Image
-          src={product.image}
+          src={imageUrls[0]}
           height={500}
           width={500}
           alt="Picture of the author"
@@ -25,7 +28,7 @@ const ProductCard = ({ product, className }: { product: IProduct; className?: st
         <Badge
           className={'absolute top-3/4 left-1/4 flex flex-row min-w-24 justify-between pr-0 gap-4'}
           variant={'outline'}>
-          <span>{product.name}</span>
+          <span>{product.title}</span>
           <Badge className={'bg-blue-700 py-1 mr-1 my-0.5 text-white'}> ₹ {product.price}</Badge>
         </Badge>
       </CardContent>
