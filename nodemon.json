@@ -6,8 +6,8 @@
   "exec": "ts-node --project tsconfig.server.json src/server.ts -- -I",
   "ext": "js ts",
   "ignore": [
-    "src/app",
-    "src/client"
+    "src/app/*",
+    "src/client/*"
   ],
   "stdin": false
 }
