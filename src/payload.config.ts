@@ -13,9 +13,13 @@ dotenv.config({
 
 export default buildConfig({
   collections: [Users, Products, Categories, Media, Orders],
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI!,
-  }),
+  db: args => {
+    const baseAdapter = mongooseAdapter({
+      url: process.env.DATABASE_URI!,
+    })(args);
+    baseAdapter.beginTransaction = async () => null;
+    return baseAdapter;
+  },
   routes: {
     admin: '/root/admin',
   },
