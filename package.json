@@ -20,6 +20,7 @@
     "prepare": "husky install",
     "lint-staged": "lint-staged",
     "lint": "eslint src",
+    "lint:next": "next lint",
     "lint:fix": "eslint --fix --ext .ts,.tsx src",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
