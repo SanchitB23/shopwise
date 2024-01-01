@@ -9,10 +9,7 @@ import ErrorComponent from '@/components/layout/ErrorComponent';
 
 const FeaturedProducts = () => {
   const { data, isLoading, isError, refetch, isRefetching } =
-    trpc.productsRouter.getFeaturedProducts.useQuery({
-      limit: 10,
-      query: {},
-    });
+    trpc.productsRouter.getFeaturedProducts.useQuery();
 
   if (isLoading || isRefetching) {
     return (
