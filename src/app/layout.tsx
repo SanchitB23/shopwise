@@ -4,6 +4,7 @@ import './globals.css';
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/nav';
 import TrpcProvider from '@/components/Providers/TrpcProvider';
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(inter.className, 'min-h-screen flex flex-col')}>
         <TrpcProvider>
           <Navbar />
           {children}

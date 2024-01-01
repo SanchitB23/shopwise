@@ -7,10 +7,7 @@ import ProductCard from '@/components/common/productCard';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function Carousel({ className }: { className?: string }) {
-  const { data, isLoading, isError } = trpc.productsRouter.getFeaturedProducts.useQuery({
-    limit: 10,
-    query: {},
-  });
+  const { data, isLoading, isError } = trpc.productsRouter.getFeaturedProducts.useQuery();
 
   if (isLoading) {
     return (
