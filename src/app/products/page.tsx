@@ -14,16 +14,17 @@ const Page = () => {
   const q = searchParams.get('q');
   const categoriesFilter = searchParams.get('categories');
   const sortByFilter = searchParams.get('sortBy');
-  const { data, isLoading, isError } = trpc.productsRouter.getProducts.useQuery(
-    {
-      cursor: 0,
-      query: {
-        category: categoriesFilter ?? undefined,
-        sort: sortByFilter ?? undefined,
+  const { data, isLoading, isError, refetch, isRefetching } =
+    trpc.productsRouter.getProducts.useQuery(
+      {
+        cursor: 0,
+        query: {
+          category: categoriesFilter ?? undefined,
+          sort: sortByFilter ?? undefined,
+        },
       },
-    },
-    { select: ({ items }) => [...items] as Product[] | undefined },
-  );
+      { select: ({ items }) => [...items] as Product[] | undefined },
+    );
   console.log('filters', q, categoriesFilter, sortByFilter);
   const { data: categories, isLoading: categoryLoader } = trpc.getCategories.useQuery(undefined, {
     select: data =>
@@ -43,7 +44,12 @@ const Page = () => {
     <div className={'container flex h-full flex-1'}>
       <FilterList {...CategoryFilterProps} />
       <div className={'mx-4 flex-1'}>
-        <ProductListComponent data={data} isLoading={isLoading} isError={isError} />
+        <ProductListComponent
+          data={data}
+          isLoading={isLoading || isRefetching}
+          isError={isError}
+          refetch={refetch}
+        />
       </div>
       <FilterList list={sortByList} title={'sortBy'} isLoading={false} />
     </div>
