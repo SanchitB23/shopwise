@@ -6,16 +6,25 @@ import ProductListComponent from './ProductList.component';
 import { Product } from '../../payload-types';
 import FilterList, { FilterListProps, IListData } from '@/components/filters';
 import { sortByList } from '@/constants/client';
+import { useSearchParams } from 'next/navigation';
 
 const Page = () => {
-  const { data, isLoading } = trpc.productsRouter.getProducts.useQuery(
+  const searchParams = useSearchParams();
+
+  const q = searchParams.get('q');
+  const categoriesFilter = searchParams.get('categories');
+  const sortByFilter = searchParams.get('sortBy');
+  const { data, isLoading, isError } = trpc.productsRouter.getProducts.useQuery(
     {
       cursor: 0,
-      query: {},
+      query: {
+        category: categoriesFilter ?? undefined,
+        sort: sortByFilter ?? undefined,
+      },
     },
     { select: ({ items }) => [...items] as Product[] | undefined },
   );
-
+  console.log('filters', q, categoriesFilter, sortByFilter);
   const { data: categories, isLoading: categoryLoader } = trpc.getCategories.useQuery(undefined, {
     select: data =>
       [
@@ -33,8 +42,8 @@ const Page = () => {
   return (
     <div className={'container flex h-full flex-1'}>
       <FilterList {...CategoryFilterProps} />
-      <div className={'mx-4'}>
-        <ProductListComponent data={data} isLoading={isLoading} />
+      <div className={'mx-4 flex-1'}>
+        <ProductListComponent data={data} isLoading={isLoading} isError={isError} />
       </div>
       <FilterList list={sortByList} title={'sortBy'} isLoading={false} />
     </div>

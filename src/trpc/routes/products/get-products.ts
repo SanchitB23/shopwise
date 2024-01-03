@@ -20,7 +20,7 @@ const getProducts = publicProcedure
     const parsedQueryOpts: Record<string, { equals: string }> = {};
 
     if (category)
-      parsedQueryOpts['category'] = {
+      parsedQueryOpts['categories'] = {
         equals: category,
       };
 
