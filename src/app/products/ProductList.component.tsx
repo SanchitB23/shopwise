@@ -44,7 +44,7 @@ const ProductListComponent = ({
     <main
       className={'text-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid grid-flow-row gap-4'}>
       {isLoading
-        ? Array.from({ length: 9 }, (_, i) => (
+        ? Array.from({ length: 6 }, (_, i) => (
             <Skeleton
               className={'bg-gray-900 rounded-xl aspect-square transition-opacity'}
               key={i}

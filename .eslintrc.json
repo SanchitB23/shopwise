@@ -3,5 +3,8 @@
     "eslint-config-next",
     "eslint-config-prettier",
     "next/core-web-vitals"
-  ]
+  ],
+  "rules": {
+    "no-console": "warn"
+  }
 }

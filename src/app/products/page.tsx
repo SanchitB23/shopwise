@@ -25,7 +25,6 @@ const Page = () => {
       },
       { select: ({ items }) => [...items] as Product[] | undefined },
     );
-  console.log('filters', q, categoriesFilter, sortByFilter);
   const { data: categories, isLoading: categoryLoader } = trpc.getCategories.useQuery(undefined, {
     select: data =>
       [
