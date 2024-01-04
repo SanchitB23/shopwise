@@ -6,13 +6,13 @@ import { z } from 'zod';
 const getProducts = publicProcedure
   .input(
     z.object({
-      cursor: z.number().nullish(),
+      cursor: z.number().nullish().optional(),
       query: QueryValidator,
     }),
   )
   .query(async ({ input }) => {
-    const { query, cursor } = input;
-    const { sort, limit, category } = query;
+    const { query, cursor = 1 } = input;
+    const { sort = '-lastModifiedDate', limit, category } = query;
     const payload = await getPayloadClient();
 
     const page = cursor || 1;

@@ -6,11 +6,16 @@ import Navbar from '@/components/layout/nav';
 import TrpcProvider from '@/components/Providers/TrpcProvider';
 import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
+import { SITE_NAME } from '@/constants/global';
+import { capitalize } from 'lodash';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Shopwise',
+  title: {
+    template: `%s | ${capitalize(SITE_NAME)}`,
+    default: capitalize(SITE_NAME),
+  },
   description: 'Shop Anything, Shop everything',
 };
 
