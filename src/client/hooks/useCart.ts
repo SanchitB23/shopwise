@@ -21,7 +21,7 @@ export const useCart = create<CartState>()(
       items: [],
       addItem: (product, quantity) =>
         set(state => {
-          const isProductAlreadyAdded = find(state.items, ['id', product.id]);
+          const isProductAlreadyAdded = find(state.items, ['product.id', product.id]);
           if (!isProductAlreadyAdded) return { items: [...state.items, { product, quantity: 1 }] };
           else {
             return {
@@ -30,7 +30,7 @@ export const useCart = create<CartState>()(
                 else
                   return {
                     product,
-                    quantity,
+                    quantity: cartItem.quantity + 1,
                   };
               }),
             };
