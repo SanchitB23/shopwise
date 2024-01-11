@@ -33,7 +33,23 @@ export default buildConfig({
     },
   },
   // plugins: [cloudinaryPlugin()],
-  editor: slateEditor({}), // editor-config
+  editor: slateEditor({
+    admin: {
+      elements: ['h1', 'h2', 'h3', 'h4', 'link', 'blockquote', 'ol', 'ul'],
+      leaves: ['bold', 'italic', 'strikethrough', 'underline', 'code'],
+      link: {
+        fields: [
+          {
+            name: 'rel',
+            label: 'Rel Attribute',
+            type: 'select',
+            hasMany: true,
+            options: ['noopener', 'noreferrer', 'nofollow'],
+          },
+        ],
+      },
+    },
+  }), // editor-config
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
