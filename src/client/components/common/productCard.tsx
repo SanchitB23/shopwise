@@ -6,6 +6,7 @@ import { Product } from '../../../payload-types';
 import { validUrls } from '@/utils/get-img-urls';
 import Image from 'next/image';
 import Link from 'next/link';
+import { currencyFormatter } from '@/utils/index';
 
 const ProductCard = ({
   product,
@@ -34,7 +35,7 @@ const ProductCard = ({
             src={imageUrls[0]}
             height={500}
             width={500}
-            alt="Picture of the author"
+            alt={product.title}
             className={cn(
               'object-contain h-3/4 w-3/4 aspect-auto group-hover:scale-150 transition-transform scale-100',
               imgClassName,
@@ -48,7 +49,7 @@ const ProductCard = ({
             variant={'outline'}>
             <span>{product.title}</span>
             <Badge className={'bg-blue-700 py-1 mr-1 my-0.5 text-white'} variant={'outline'}>
-              ₹ {product.price}
+              {currencyFormatter(product.price)}
             </Badge>
           </Badge>
         </CardContent>

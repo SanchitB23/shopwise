@@ -1,11 +1,8 @@
-// import Cart from 'components/cart';
-// import OpenCart from 'components/cart/open-cart';
-// import LogoSquare from 'components/logo-square';
 import Link from 'next/link';
 import MobileMenu from './mobile-menu';
 import Search from './search';
 import { SITE_NAME } from '@/constants/global';
-import Cart from '@/components/layout/nav/cart';
+import Cart from '@/components/Cart';
 import Image from 'next/image';
 import Logo from '../../../resources/logo/logo_transparent.png';
 import { NAV_MENU } from '@/constants/client';

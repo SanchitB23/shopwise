@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Product } from '../../../payload-types';
 import { Minus, Plus } from 'lucide-react';
@@ -17,10 +17,14 @@ const AddToCartBtn = ({ product, isDisabled = false }: Props) => {
   const [selectedQuantity, setSelectedQuantity] = useState(
     find(items, ['product.id', product?.id])?.quantity ?? 0,
   );
+  useEffect(() => {
+    const itemInStorage = find(items, ['product.id', product?.id]);
+    setSelectedQuantity(itemInStorage?.quantity ?? 0);
+  }, [items, product?.id]);
 
   function onAdd() {
     setSelectedQuantity(prevState => prevState + 1);
-    addItem(product!, selectedQuantity);
+    addItem(product!);
   }
 
   function onRemove() {
@@ -31,7 +35,7 @@ const AddToCartBtn = ({ product, isDisabled = false }: Props) => {
   if (selectedQuantity < 1)
     return (
       <>
-        <Button className={'w-full capitalize'} onClick={onAdd} disabled={isDisabled}>
+        <Button className={'w-full capitalize mt-4'} onClick={onAdd} disabled={isDisabled}>
           <Plus />
           <span className={'flex-1'}>add to cart</span>
         </Button>
@@ -39,7 +43,7 @@ const AddToCartBtn = ({ product, isDisabled = false }: Props) => {
     );
 
   return (
-    <Button className={'w-full capitalize cursor-default'} disabled={isDisabled}>
+    <Button className={'w-full capitalize cursor-default mt-4'} disabled={isDisabled}>
       <Minus onClick={onRemove} className={'cursor-pointer'} />
       <span className={'flex-1'}>{selectedQuantity}</span>
       <Plus onClick={onAdd} className={'cursor-pointer'} />

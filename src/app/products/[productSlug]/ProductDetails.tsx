@@ -34,7 +34,7 @@ const ProductDetails = ({ slug }: { slug: string }) => {
 
   return (
     <Card className={'bg-gray-900 h-full'}>
-      <CardContent className={'flex flex-col md:flex-row h-full'}>
+      <CardContent className={'flex flex-col lg:flex-row h-full'}>
         {/*// @ts-ignore*/}
         <section className={'flex-1 text-center'} style={{ textAlign: '-webkit-center' }}>
           <Carousel className="w-10/12 h-full">
@@ -46,9 +46,7 @@ const ProductDetails = ({ slug }: { slug: string }) => {
                     height={500}
                     width={500}
                     alt="Picture of the author"
-                    className={cn(
-                      'object-contain h-3/4 w-3/4 aspect-auto group-hover:scale-150 transition-transform scale-100',
-                    )}
+                    className={cn('object-contain lg:h-3/4 lg:w-3/4 aspect-auto scale-125')}
                     quality={100}
                   />
                 </CarouselItem>
@@ -63,7 +61,7 @@ const ProductDetails = ({ slug }: { slug: string }) => {
           </Carousel>
         </section>
         <section className={'flex-1 flex flex-col p-6'}>
-          <CardTitle className={'text-7xl mb-2'}>{data?.title}</CardTitle>
+          <CardTitle className={'lg:text-6xl mb-2 text-5xl'}>{data?.title}</CardTitle>
           <Badge
             className={
               'bg-blue-700 py-1 mr-1 my-0.5 text-white w-fit px-3 min-w-20 justify-center text-sm'

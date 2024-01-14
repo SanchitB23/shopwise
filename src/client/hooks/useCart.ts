@@ -10,7 +10,7 @@ export type CartItem = {
 
 type CartState = {
   items: CartItem[];
-  addItem: (product: Product, quantity: number) => void;
+  addItem: (product: Product) => void;
   removeItem: (productId: string) => void;
   clearCart: () => void;
 };
@@ -19,7 +19,7 @@ export const useCart = create<CartState>()(
   persist(
     set => ({
       items: [],
-      addItem: (product, quantity) =>
+      addItem: product =>
         set(state => {
           const isProductAlreadyAdded = find(state.items, ['product.id', product.id]);
           if (!isProductAlreadyAdded) return { items: [...state.items, { product, quantity: 1 }] };
@@ -38,7 +38,7 @@ export const useCart = create<CartState>()(
         }),
       removeItem: id =>
         set(state => {
-          const cartItem = find(state.items, ['id', id]);
+          const cartItem = find(state.items, ['product.id', id]);
           if (cartItem && cartItem.quantity > 1) {
             return {
               items: state.items.map(cartI => {

@@ -35,6 +35,7 @@ const getProductData = publicProcedure
         quantity,
         description,
         price,
+        slug,
       },
     };
   });

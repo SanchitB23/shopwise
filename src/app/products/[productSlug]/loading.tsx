@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 const Loading = () => {
   return (
     <Card className={'bg-gray-900 h-full'}>
-      <CardContent className={'flex flex-col md:flex-row h-full'}>
+      <CardContent className={'flex flex-col lg:flex-row h-full'}>
         {/*// @ts-ignore*/}
         <section className={'flex-1 flex justify-center items-center p-4 pt-8'}>
           <Skeleton className={'h-full w-full'} />
