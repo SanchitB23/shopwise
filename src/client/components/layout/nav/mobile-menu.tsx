@@ -76,7 +76,7 @@ export default function MobileMenu({ menu }: { menu: any[] }) {
           <ul className="flex w-full flex-col">
             {menu.map((item: any) => (
               <li
-                className="py-2 text-xl text-black transition-colors hover:text-neutral-500 dark:text-white"
+                className="py-2 text-xl  transition-colors hover:text-neutral-500 text-white"
                 key={item.title}>
                 <Link href={item.path} onClick={closeMobileMenu}>
                   {item.title}
