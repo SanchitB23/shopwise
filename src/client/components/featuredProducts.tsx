@@ -27,7 +27,7 @@ const FeaturedProducts = () => {
   const [product1, product2, product3] = data.items;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-[80vh]">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:h-[80vh]">
       <ProductCard product={product1} className={'col-span-1 md:col-span-2'} />
       <div className="col-span-1 grid grid-rows-2 gap-4">
         <ProductCard product={product2} />
