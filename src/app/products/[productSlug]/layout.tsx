@@ -3,8 +3,8 @@ import RelatedProducts from '@/components/RelatedProducts';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <main className={'h-screen flex flex-col'}>
-      <div className={'flex-auto'}>{children}</div>
+    <main className={'min-h-screen flex flex-col'}>
+      {children}
       <RelatedProducts />
     </main>
   );

@@ -33,7 +33,7 @@ const ProductDetails = ({ slug }: { slug: string }) => {
   const imageUrls = validUrls(data);
 
   return (
-    <Card className={'bg-gray-900 h-full'}>
+    <Card className={'bg-gray-900 lg:h-[70vh]'}>
       <CardContent className={'flex flex-col lg:flex-row h-full'}>
         {/*// @ts-ignore*/}
         <section className={'flex-1 text-center'} style={{ textAlign: '-webkit-center' }}>
