@@ -23,7 +23,7 @@ const SignIn = () => {
                 className: 'gap-1.5',
               })}
               href="/sign-up">
-              Don&apos;t have an account?
+              Don&apos;t have an account? Create one
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

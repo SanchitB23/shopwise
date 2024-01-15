@@ -52,7 +52,7 @@ export default function CartSheet() {
                 />
               ))}
             </ScrollArea>
-            <SheetFooter>
+            <SheetFooter className={'sm:flex-col-reverse'}>
               <SheetClose asChild>
                 <Button type="submit" className={'capitalize rounded-full'}>
                   <SheetClose asChild>
