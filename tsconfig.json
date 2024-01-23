@@ -35,6 +35,9 @@
       "@/hooks/*": [
         "./src/client/hooks/*"
       ],
+      "@/validators/*": [
+        "./src/validators/*"
+      ],
       "@/trpc/client": [
         "./src/trpc/client.ts"
       ]
@@ -50,7 +53,8 @@
     "target": "es5"
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/trpc/*"
   ],
   "include": [
     "next-env.d.ts",

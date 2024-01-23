@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { formSchema, TFormSchema } from './formSchema';
+import { signInValidator, TSignInSchema } from '@/validators/auth-validator';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
@@ -20,6 +20,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { PasswordInputField } from '@/components/common/passwordInputField';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { trpc } from '@/trpc/client';
+import { toast } from 'sonner';
 
 const SignIn = () => {
   const searchParams = useSearchParams();
@@ -35,19 +37,40 @@ const SignIn = () => {
     router.replace('/sign-in', undefined);
   };
 
-  const form = useForm<TFormSchema>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<TSignInSchema>({
+    resolver: zodResolver(signInValidator),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  // const {}  = trpc.;
+  const { isLoading, mutate: signIn } = trpc.auth.signIn.useMutation({
+    onSuccess: async () => {
+      toast.success('Signed in successfully');
 
-  const onSubmit = (values: TFormSchema) => {
-    console.log('values', values);
-  };
+      router.refresh();
+
+      if (origin) {
+        router.push(`/${origin}`);
+        return;
+      }
+
+      if (isSeller) {
+        router.push('/sell');
+        return;
+      }
+
+      router.push('/');
+    },
+    onError: err => {
+      if (err.data?.code === 'UNAUTHORIZED') {
+        toast.error('Invalid email or password.');
+      }
+    },
+  });
+
+  const onSubmit = (values: TSignInSchema) => signIn(values);
 
   return (
     <>
@@ -58,7 +81,6 @@ const SignIn = () => {
             <h1 className="text-2xl font-semibold tracking-tight">
               Sign in to your {isSeller ? 'Seller' : ''} account
             </h1>
-
             <Link
               className={buttonVariants({
                 variant: 'link',
@@ -98,7 +120,7 @@ const SignIn = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className={'w-full'}>
+              <Button type="submit" className={'w-full'} disabled={isLoading}>
                 Sign In
               </Button>
             </form>

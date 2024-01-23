@@ -1,6 +1,6 @@
 import { publicProcedure } from '../../index';
 import { getPayloadClient } from '../../../server/db/config/get-payloadcms';
-import { QueryValidator } from '../../validators/product-query-validator';
+import { QueryValidator } from '../../../validators/product-query-validator';
 import { z } from 'zod';
 
 const getProducts = publicProcedure

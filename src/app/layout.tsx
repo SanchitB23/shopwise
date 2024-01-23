@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
 import { SITE_NAME } from '@/constants/global';
 import { capitalize } from 'lodash';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {children}
           <Footer />
         </TrpcProvider>
+        <Toaster position={'top-right'} theme={'dark'} richColors />
       </body>
     </html>
   );

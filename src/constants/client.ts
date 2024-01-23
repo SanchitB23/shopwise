@@ -12,11 +12,11 @@ export const sortByList = [
   },
   {
     label: 'price: low to high',
-    value: '-price',
+    value: 'price',
   },
   {
     label: 'price: high to low',
-    value: 'price',
+    value: '-price',
   },
   {
     label: 'latest arrivals',

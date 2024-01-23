@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
-export const formSchema = z.object({
+export const signInValidator = z.object({
+  email: z.string().min(1, 'Email cannot be empty').email('Please enter valid email'),
+  password: z.string(),
+});
+
+export const signUpValidator = z.object({
   email: z.string().min(1, 'Email cannot be empty').email('Please enter valid email'),
   password: z
     .string()
@@ -19,4 +24,5 @@ export const formSchema = z.object({
     }),
 });
 
-export type TFormSchema = z.infer<typeof formSchema>;
+export type TSignInSchema = z.infer<typeof signInValidator>;
+export type TSignUpSchema = z.infer<typeof signUpValidator>;
