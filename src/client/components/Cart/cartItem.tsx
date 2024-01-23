@@ -1,5 +1,5 @@
 import React from 'react';
-import { CartItem } from '../../hooks/useCart';
+import { CartItem } from '@/hooks/useCart';
 import { currencyFormatter } from '@/utils/index';
 import { Minus, Plus, X } from 'lucide-react';
 import { Button } from '../ui/button';

@@ -32,7 +32,12 @@
       "@/utils/*": [
         "./src/client/utils/*"
       ],
-      "@/trpc/client": ["./src/trpc/client.ts"]
+      "@/hooks/*": [
+        "./src/client/hooks/*"
+      ],
+      "@/trpc/client": [
+        "./src/trpc/client.ts"
+      ]
     },
     "plugins": [
       {
