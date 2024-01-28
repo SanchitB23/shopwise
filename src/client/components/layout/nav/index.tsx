@@ -6,8 +6,7 @@ import Cart from '@/components/Cart';
 import Image from 'next/image';
 import Logo from '../../../resources/logo/logo_transparent.png';
 import { NAV_MENU } from '@/constants/client';
-import { Button } from '@/components/ui/button';
-import { User } from 'lucide-react';
+import UserBtn from '@/components/layout/nav/user-btn';
 
 export default async function Navbar() {
   const menu = NAV_MENU;
@@ -42,16 +41,7 @@ export default async function Navbar() {
           <Search />
         </div>
         <div className="flex justify-end md:w-1/3 items-center gap-2">
-          <Link href={'/sign-in'}>
-            <Button
-              variant="outline"
-              size="icon"
-              className={
-                'rounded-xl relative shadow-lg transition-transform transform group hover:bg-transparent'
-              }>
-              <User />
-            </Button>
-          </Link>
+          <UserBtn />
           <Cart />
         </div>
       </div>
