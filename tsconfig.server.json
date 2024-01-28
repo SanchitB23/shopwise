@@ -25,7 +25,9 @@
     "moduleResolution": "node"
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/client/*",
+    "src/app/*",
   ],
   "include": [
     "src/server/*",

@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signUpValidator, TSignUpSchema } from '@/validators/auth-validator';
+import { countryCodeEnum, signUpValidator, TSignUpSchema } from '@/validators/auth-validator';
 import {
   Form,
   FormControl,
@@ -21,6 +21,7 @@ import { trpc } from '@/trpc/client';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { PasswordInputField } from '@/components/common/passwordInputField';
+import MobileNumberInput from '@/components/common/mobileNumberInput';
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -32,6 +33,7 @@ const Page = () => {
     defaultValues: {
       email: '',
       password: '',
+      countryCode: countryCodeEnum.enum.IN,
     },
   });
 
@@ -115,6 +117,11 @@ const Page = () => {
                     <FormMessage />
                   </FormItem>
                 )}
+              />
+              <MobileNumberInput
+                form={form}
+                countrySelectName={'countryCode'}
+                mobileInputName={'mobile'}
               />
               <Button type="submit" className={'w-full'} disabled={isLoading}>
                 Sign Up
