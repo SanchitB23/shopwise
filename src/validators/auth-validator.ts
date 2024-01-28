@@ -5,7 +5,7 @@ export const countryCodes = ['IN'] as const;
 export const countryCodeEnum = z.enum(countryCodes);
 export const signInValidator = z.object({
   email: z.string().min(1, 'Email cannot be empty').email('Please enter valid email'),
-  password: z.string(),
+  password: z.string().min(1, 'Password is required'),
 });
 
 export const signUpValidator = z

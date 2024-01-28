@@ -125,6 +125,9 @@ const SignIn = () => {
               </Button>
             </form>
           </Form>
+          <Button type="button" variant={'link'} className={'!mt-0 self-start pl-0'}>
+            <Link href={'/forget-password'}>Forget Password?</Link>
+          </Button>
         </div>
       </div>
     </>
