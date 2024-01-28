@@ -1,14 +1,14 @@
 'use client';
-
 import React from 'react';
-import Image from 'next/image';
-import Logo from '@/resources/logo/logo_transparent.png';
-import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import Logo from '@/resources/logo/logo_transparent.png';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { signInValidator, TSignInSchema } from '@/validators/auth-validator';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signUpValidator, TSignUpSchema } from '@/validators/auth-validator';
 import {
   Form,
   FormControl,
@@ -17,35 +17,25 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { PasswordInputField } from '@/components/common/passwordInputField';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { trpc } from '@/trpc/client';
 import { toast } from 'sonner';
+import { Input } from '@/components/ui/input';
+import { PasswordInputField } from '@/components/common/passwordInputField';
 
-const SignIn = () => {
+const Page = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const isSeller = searchParams.get('as') === 'seller';
   const origin = searchParams.get('origin');
 
-  const continueAsSeller = () => {
-    router.push('?as=seller');
-  };
-
-  const continueAsBuyer = () => {
-    router.replace('/sign-in', undefined);
-  };
-
-  const form = useForm<TSignInSchema>({
-    resolver: zodResolver(signInValidator),
+  const form = useForm<TSignUpSchema>({
+    resolver: zodResolver(signUpValidator),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const { isLoading, mutate: signIn } = trpc.auth.signIn.useMutation({
+  const { isLoading, mutate: signUp } = trpc.auth.signIn.useMutation({
     onSuccess: async () => {
       toast.success('Signed in successfully');
 
@@ -53,11 +43,6 @@ const SignIn = () => {
 
       if (origin) {
         router.push(`/${origin}`);
-        return;
-      }
-
-      if (isSeller) {
-        router.push('/sell');
         return;
       }
 
@@ -70,28 +55,26 @@ const SignIn = () => {
     },
   });
 
-  const onSubmit = (values: TSignInSchema) => signIn(values);
-
+  const onSubmit = (values: TSignUpSchema) => {
+    console.log('sign up', values);
+  };
   return (
     <>
-      <div className="container relative flex pt-20 flex-col items-center  lg:px-0 flex-1">
-        <div className="mx-auto flex w-full flex-col  space-y-6 sm:w-[350px]">
+      <div className="container relative flex pt-20 flex-1 flex-col items-center  lg:px-0">
+        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col items-center space-y-2 text-center">
             <Image src={Logo} alt={'Logo'} className="h-20 w-20" />
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Sign in to your {isSeller ? 'Seller' : ''} account
-            </h1>
+            <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
             <Link
               className={buttonVariants({
                 variant: 'link',
                 className: 'gap-1.5',
               })}
-              href="/sign-up">
-              Don&apos;t have an account? Create one
+              href="/sign-in">
+              Already have an account? Sign-in
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
@@ -120,8 +103,21 @@ const SignIn = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <PasswordInputField placeholder="Enter Password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button type="submit" className={'w-full'} disabled={isLoading}>
-                Sign In
+                Sign Up
               </Button>
             </form>
           </Form>
@@ -131,4 +127,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Page;
