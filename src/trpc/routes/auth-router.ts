@@ -1,7 +1,8 @@
 import { publicProcedure, router } from '../index';
-import { signInValidator } from '../../validators/auth-validator';
+import { signInValidator, signUpValidator } from '../../validators/auth-validator';
 import { getPayloadClient } from '../../server/db/config/get-payloadcms';
 import { TRPCError } from '@trpc/server';
+import libphonenumber from 'libphonenumber-js';
 
 export const authRouter = router({
   signIn: publicProcedure
@@ -17,10 +18,45 @@ export const authRouter = router({
           },
           res,
         });
-
         return { success: true };
       } catch (err) {
-        throw new TRPCError({ code: 'UNAUTHORIZED' });
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
+    }),
+  signUp: publicProcedure
+    .input(signUpValidator)
+    .mutation(async ({ input: { email, password, mobile, countryCode } }) => {
+      const mobileNumber = libphonenumber(String(mobile), countryCode)?.number as string;
+      if (!mobileNumber)
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Mobile Number is not valid' });
+
+      try {
+        const payload = await getPayloadClient();
+        const { docs: users } = await payload.find({
+          collection: 'users',
+          where: {
+            email: {
+              equals: email,
+            },
+          },
+        });
+
+        if (users.length !== 0) throw new TRPCError({ code: 'CONFLICT' });
+
+        await payload.create({
+          collection: 'users',
+          data: {
+            email,
+            password,
+            mobile,
+            role: 'customer',
+          },
+        });
+
+        return { success: true, sentToEmail: email };
+      } catch (e) {
+        if (e instanceof TRPCError) throw e;
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
       }
     }),
 });

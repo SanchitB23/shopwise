@@ -37,29 +37,36 @@ const Page = () => {
     },
   });
 
-  const { isLoading, mutate: signUp } = trpc.auth.signIn.useMutation({
+  const { isLoading, mutate: signUp } = trpc.auth.signUp.useMutation({
     onSuccess: async () => {
       toast.success('Signed in successfully');
-
       router.refresh();
-
       if (origin) {
         router.push(`/${origin}`);
         return;
       }
-
       router.push('/');
     },
     onError: err => {
-      if (err.data?.code === 'UNAUTHORIZED') {
-        toast.error('Invalid email or password.');
+      switch (err?.data?.code) {
+        case 'INTERNAL_SERVER_ERROR':
+        case 'BAD_REQUEST':
+          return toast.error(err.message);
+        case 'CONFLICT':
+          return toast.error('Email Already Exists, Please enter Another Email', {
+            action: {
+              label: 'Forget Password?',
+              onClick: _ => router.push(`/forget-password`),
+            },
+          });
+        default:
+          return toast.error('Please try again after sometime');
       }
     },
   });
 
-  const onSubmit = (values: TSignUpSchema) => {
-    console.log('sign up', values);
-  };
+  const onSubmit = (values: TSignUpSchema) => signUp(values);
+
   return (
     <>
       <div className="container relative flex pt-20 flex-1 flex-col items-center  lg:px-0">

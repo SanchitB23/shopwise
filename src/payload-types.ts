@@ -34,7 +34,7 @@ export interface User {
   address?:
     | {
         full_name: string;
-        mobile: number;
+        mobile: string;
         pincode: number;
         address_1: string;
         address_2?: string | null;

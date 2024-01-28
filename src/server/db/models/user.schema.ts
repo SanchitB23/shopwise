@@ -82,7 +82,7 @@ export const Users: CollectionConfig = {
         },
         {
           name: 'mobile',
-          type: 'number',
+          type: 'text',
           required: true,
         },
         {
