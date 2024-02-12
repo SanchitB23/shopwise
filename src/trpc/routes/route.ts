@@ -3,6 +3,7 @@ import productsRouter from './products';
 import { getPayloadClient } from '../../server/db/config/get-payloadcms';
 import { Category } from '../../payload-types';
 import { authRouter } from './auth-router';
+import { userRouter } from './users';
 
 export const appRouter = router({
   auth: authRouter,
@@ -14,6 +15,7 @@ export const appRouter = router({
     });
     return items as Category[];
   }),
+  userRouter,
 });
 
 export type AppRouter = typeof appRouter;

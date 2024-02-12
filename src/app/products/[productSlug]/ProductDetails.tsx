@@ -18,12 +18,25 @@ import { IContentType, Serialize } from '@/components/common/richTextSerializer'
 import AddToCartBtn from './AddToCart.Btn';
 import Loading from './loading';
 import Error from './error';
+import { Heart } from 'lucide-react';
 
 const ProductDetails = ({ slug }: { slug: string }) => {
   const { data, isLoading, isError } = trpc.productsRouter.getProductData.useQuery(
     { slug },
     { select: ({ productData }) => productData as Product },
   );
+  const { data: wishlist, refetch } = trpc.userRouter.getWishListedProducts.useQuery(
+    { productId: data?.id },
+    {
+      enabled: !!data?.id,
+    },
+  );
+  const { mutate: addToWishlist } = trpc.userRouter.addToWishlist.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
   if (isLoading) {
     return <Loading />;
   }
@@ -62,13 +75,24 @@ const ProductDetails = ({ slug }: { slug: string }) => {
         </section>
         <section className={'flex-1 flex flex-col p-6'}>
           <CardTitle className={'lg:text-6xl mb-2 text-5xl'}>{data?.title}</CardTitle>
-          <Badge
-            className={
-              'bg-blue-700 py-1 mr-1 my-0.5 text-white w-fit px-3 min-w-20 justify-center text-sm'
-            }
-            variant={'outline'}>
-            ₹ {data?.price}
-          </Badge>
+          <div className={'flex'}>
+            <Badge
+              className={
+                'bg-blue-700 py-1 mr-1 my-0.5 text-white w-fit px-3 min-w-20 justify-center text-sm'
+              }
+              variant={'outline'}>
+              ₹ {data?.price}
+            </Badge>
+            <Badge
+              className={
+                'py-1 mr-1 my-0.5 text-white w-fit px-3 min-w-20 justify-center text-sm hover:cursor-pointer hover:border-red-400'
+              }
+              variant={'secondary'}
+              onClick={() => addToWishlist({ productId: data!.id })}>
+              <Heart className={'text-red-500 mr-2'} />
+              {wishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+            </Badge>
+          </div>
           <hr className={'my-7'} />
           <CardDescription>
             <Serialize content={data?.description as IContentType[]} />

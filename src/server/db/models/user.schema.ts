@@ -203,6 +203,13 @@ export const Users: CollectionConfig = {
         beforeChange: [resolveDuplicatePurchases],
       },
     },
+    {
+      name: 'wishlist',
+      label: 'Wishlist',
+      type: 'relationship',
+      relationTo: 'products',
+      hasMany: true,
+    },
   ],
   timestamps: true,
 };

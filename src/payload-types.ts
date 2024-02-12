@@ -52,6 +52,7 @@ export interface User {
   };
   stripeCustomerID?: string | null;
   orders?: (string | Product)[] | null;
+  wishlist?: (string | Product)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
