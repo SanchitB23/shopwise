@@ -64,9 +64,7 @@ const SignIn = () => {
       router.push('/');
     },
     onError: err => {
-      if (err.data?.code === 'UNAUTHORIZED') {
-        toast.error('Invalid email or password.');
-      }
+      toast.error(err.message);
     },
   });
 

@@ -3,6 +3,7 @@ import { signInValidator, signUpValidator } from '../../validators/auth-validato
 import { getPayloadClient } from '../../server/db/config/get-payloadcms';
 import { TRPCError } from '@trpc/server';
 import libphonenumber from 'libphonenumber-js';
+import { APIError } from 'payload/errors';
 
 export const authRouter = router({
   signIn: publicProcedure
@@ -20,6 +21,10 @@ export const authRouter = router({
         });
         return { success: true };
       } catch (err) {
+        let error = err as APIError;
+        if (error.status === 401) {
+          throw new TRPCError({ code: 'UNAUTHORIZED', message: error.message });
+        }
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
       }
     }),
