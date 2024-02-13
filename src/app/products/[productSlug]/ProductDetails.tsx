@@ -18,24 +18,30 @@ import { IContentType, Serialize } from '@/components/common/richTextSerializer'
 import AddToCartBtn from './AddToCart.Btn';
 import Loading from './loading';
 import Error from './error';
-import { Heart } from 'lucide-react';
+import { Heart, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const ProductDetails = ({ slug }: { slug: string }) => {
   const { data, isLoading, isError } = trpc.productsRouter.getProductData.useQuery(
     { slug },
     { select: ({ productData }) => productData as Product },
   );
-  const { data: wishlist, refetch } = trpc.userRouter.getWishListedProducts.useQuery(
+  const {
+    data: wishlist,
+    refetch,
+    isLoading: getWishlistLoading,
+  } = trpc.userRouter.getWishListedProducts.useQuery(
     { productId: data?.id },
     {
       enabled: !!data?.id,
     },
   );
-  const { mutate: addToWishlist } = trpc.userRouter.addToWishlist.useMutation({
-    onSuccess: () => {
-      refetch();
-    },
-  });
+  const { mutate: toggleFromWishlist, isLoading: updateWishlistLoading } =
+    trpc.userRouter.toggleFromWishlist.useMutation({
+      onSuccess: () => {
+        refetch();
+      },
+    });
 
   if (isLoading) {
     return <Loading />;
@@ -44,7 +50,7 @@ const ProductDetails = ({ slug }: { slug: string }) => {
   if (isError) return <Error />;
 
   const imageUrls = validUrls(data);
-
+  const wishlistLoading = getWishlistLoading || updateWishlistLoading;
   return (
     <Card className={'bg-gray-900 lg:h-[70vh]'}>
       <CardContent className={'flex flex-col lg:flex-row h-full'}>
@@ -83,15 +89,24 @@ const ProductDetails = ({ slug }: { slug: string }) => {
               variant={'outline'}>
               ₹ {data?.price}
             </Badge>
-            <Badge
+            <Button
               className={
                 'py-1 mr-1 my-0.5 text-white w-fit px-3 min-w-20 justify-center text-sm hover:cursor-pointer hover:border-red-400'
               }
+              disabled={wishlistLoading}
               variant={'secondary'}
-              onClick={() => addToWishlist({ productId: data!.id })}>
-              <Heart className={'text-red-500 mr-2'} />
-              {wishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
-            </Badge>
+              onClick={() => toggleFromWishlist({ productId: data!.id, add: !wishlist })}>
+              {!wishlistLoading ? (
+                <Heart className={'text-red-500 mr-2'} />
+              ) : (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              {wishlistLoading
+                ? 'Please Wait'
+                : wishlist
+                  ? 'Remove from Wishlist'
+                  : 'Add to Wishlist'}
+            </Button>
           </div>
           <hr className={'my-7'} />
           <CardDescription>

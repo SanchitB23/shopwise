@@ -1,7 +1,7 @@
 import { privateProcedure } from '../../index';
 import { getPayloadClient } from '../../../server/db/config/get-payloadcms';
 import { z } from 'zod';
-import { find } from 'lodash';
+import { compact, uniq, without } from 'lodash';
 
 const getWishListedProducts = privateProcedure
   .input(z.object({ productId: z.string().optional() }))
@@ -13,21 +13,31 @@ const getWishListedProducts = privateProcedure
       depth: productId ? 0 : 1,
     });
     if (productId) {
-      return find(result.wishlist, productId);
+      return result.wishlist && result.wishlist.includes(productId);
     }
     return result.wishlist;
   });
 
-const addToWishlist = privateProcedure
-  .input(z.object({ productId: z.string() }))
-  .mutation(async ({ input: { productId }, ctx: { user } }) => {
-    //   todo Incomplete
+const toggleFromWishlist = privateProcedure
+  .input(z.object({ productId: z.string(), add: z.boolean() }))
+  .mutation(async ({ input: { productId, add }, ctx: { user } }) => {
     const payload = await getPayloadClient();
-    const result = await payload.update({
+    const { wishlist } = await payload.findByID({
       collection: 'users',
-      data: {},
+      id: user.id,
+      depth: 0,
+    });
+
+    let newWishlist;
+    if (add) newWishlist = uniq(compact([...((wishlist as string[]) ?? []), productId]));
+    else newWishlist = without(wishlist as string[], productId);
+    return await payload.update({
+      collection: 'users',
+      data: {
+        wishlist: newWishlist,
+      },
       id: user.id,
     });
   });
 
-export { getWishListedProducts, addToWishlist };
+export { getWishListedProducts, toggleFromWishlist };

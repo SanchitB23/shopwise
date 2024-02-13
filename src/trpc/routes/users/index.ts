@@ -1,7 +1,7 @@
 import { router } from '../../index';
-import { addToWishlist, getWishListedProducts } from './wishlist';
+import { getWishListedProducts, toggleFromWishlist } from './wishlist';
 
 export const userRouter = router({
   getWishListedProducts,
-  addToWishlist,
+  toggleFromWishlist,
 });
