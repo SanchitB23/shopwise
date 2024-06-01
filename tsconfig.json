@@ -3,7 +3,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "incremental": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "jsx": "preserve",
     "lib": [
       "dom",
