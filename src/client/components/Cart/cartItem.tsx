@@ -1,8 +1,8 @@
 import React from 'react';
-import { CartItem } from '@/hooks/useCart';
-import { currencyFormatter } from '@/utils/index';
-import { Minus, Plus, X } from 'lucide-react';
-import { Button } from '../ui/button';
+import type {CartItem} from '@/hooks/useCart';
+import {currencyFormatter} from '@/utils/index';
+import {Minus, Plus, X} from 'lucide-react';
+import {Button} from '../ui/button';
 import Image from 'next/image';
 import { validUrls } from '@/utils/get-img-urls';
 import Link from 'next/link';
